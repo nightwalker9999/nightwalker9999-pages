@@ -1,0 +1,56 @@
+
+<div style="max-width:580px;margin:0 auto;padding:2rem 0">
+  <div style="border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden">
+
+    <!-- Top accent bar with subtle terminal hint -->
+    <div style="background:var(--color-background-secondary);padding:0.6rem 1.2rem;border-bottom:1px solid var(--color-border-tertiary);display:flex;align-items:center;gap:8px">
+      <div style="width:8px;height:8px;border-radius:50%;background:#e05c5c;opacity:0.8"></div>
+      <div style="width:8px;height:8px;border-radius:50%;background:#e0b05c;opacity:0.8"></div>
+      <div style="width:8px;height:8px;border-radius:50%;background:#5ce07a;opacity:0.8"></div>
+      <span style="margin-left:8px;font-family:var(--font-mono);font-size:11px;color:var(--color-text-tertiary)">dns-resolution</span>
+    </div>
+
+    <!-- Main content -->
+    <div style="padding:2rem 2.2rem 1.6rem;background:var(--color-background-primary)">
+
+      <!-- Hook -->
+      <p style="font-size:18px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin:0 0 1.4rem">I thought I understood DNS.<br>I didn't.</p>
+
+      <!-- Misconception -->
+      <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin:0 0 0.5rem;font-weight:500">What I assumed</p>
+      <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin:0 0 1.4rem;padding:0.75rem 1rem;border-left:2px solid var(--color-border-secondary);border-radius:0 4px 4px 0;background:var(--color-background-secondary)">When the resolver can't find something in cache, it asks a well-known server like Cloudflare or Google DNS — and that server <em>knows</em> the IP.</p>
+
+      <!-- Reality -->
+      <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin:0 0 0.5rem;font-weight:500">What actually happens</p>
+      <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin:0 0 1.2rem">DNS is decentralised. The resolver doesn't ask someone who <em>knows.</em> It asks someone who knows <em>who to ask next.</em></p>
+
+      <!-- Chain -->
+      <div style="display:flex;align-items:center;gap:0;margin:0 0 1.4rem;flex-wrap:wrap;gap:4px">
+        <span style="font-family:var(--font-mono);font-size:12px;padding:5px 12px;border:1px solid var(--color-border-secondary);border-radius:20px;color:var(--color-text-primary);background:var(--color-background-secondary)">Root server</span>
+        <span style="color:var(--color-text-tertiary);font-size:13px;padding:0 2px">→</span>
+        <span style="font-family:var(--font-mono);font-size:12px;padding:5px 12px;border:1px solid var(--color-border-secondary);border-radius:20px;color:var(--color-text-primary);background:var(--color-background-secondary)">.com TLD</span>
+        <span style="color:var(--color-text-tertiary);font-size:13px;padding:0 2px">→</span>
+        <span style="font-family:var(--font-mono);font-size:12px;padding:5px 12px;border:1px solid var(--color-border-secondary);border-radius:20px;color:var(--color-text-primary);background:var(--color-background-secondary)">Authoritative NS</span>
+        <span style="color:var(--color-text-tertiary);font-size:13px;padding:0 2px">→</span>
+        <span style="font-family:var(--font-mono);font-size:12px;padding:5px 12px;border:1px solid var(--color-border-tertiary);border-radius:20px;color:var(--color-text-primary);background:var(--color-background-primary)">IP address</span>
+      </div>
+
+      <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin:0 0 1.6rem">The cache can short-circuit this at any stage. The tree only gets climbed as far as necessary.</p>
+
+      <!-- Divider -->
+      <div style="border-top:1px solid var(--color-border-tertiary);margin:0 0 1.4rem"></div>
+
+      <!-- Takeaway -->
+      <p style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin:0 0 1.4rem">I only found this gap when someone asked me to explain it out loud. I stumbled mid-sentence.<br><br>That stumble was worth more than re-reading the docs three times.</p>
+
+      <!-- CTA -->
+      <p style="font-size:13px;color:var(--color-text-tertiary);line-height:1.6;margin:0;font-style:italic">What clicked for you only when you had to explain it?</p>
+    </div>
+
+    <!-- Footer tag -->
+    <div style="background:var(--color-background-secondary);padding:0.6rem 1.2rem;border-top:1px solid var(--color-border-tertiary)">
+      <span style="font-size:11px;color:var(--color-text-tertiary);font-family:var(--font-mono)">#DevOps &nbsp;#Linux &nbsp;#100DaysOfDevOps &nbsp;#LearningInPublic</span>
+    </div>
+
+  </div>
+</div>
