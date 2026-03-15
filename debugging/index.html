@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Debugging — nightwalker9999</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=Fraunces:ital,wght@0,300;0,400;1,300&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0e0e0e;
+      color: #c9c9c9;
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 560px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+
+    .titlebar {
+      background: #1e1e1e;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot.red   { background: #ff5f57; }
+    .dot.yellow{ background: #febc2e; }
+    .dot.green { background: #28c840; }
+
+    .titlebar-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #555;
+      margin-left: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .body {
+      padding: 2rem 2.2rem 1.6rem;
+    }
+
+    .opener {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: #d4d4d4;
+      margin-bottom: 1.8rem;
+    }
+
+    .opener em {
+      font-style: italic;
+      color: #aaa;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      color: #555;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+
+    .scenario {
+      margin-bottom: 1.8rem;
+    }
+
+    .scenario-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.08em;
+    }
+
+    .scenario p {
+      font-size: 0.97rem;
+      line-height: 1.7;
+      color: #c4c4c4;
+      margin-bottom: 0.5rem;
+    }
+
+    .cmd-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0.6rem 0;
+      align-items: center;
+    }
+
+    .cmd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: #232323;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 3px 8px;
+      color: #a8d8a8;
+    }
+
+    .arrow {
+      color: #444;
+      font-size: 12px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #222;
+      margin: 1.8rem 0;
+    }
+
+    .pattern {
+      margin-bottom: 1.8rem;
+    }
+
+    .pattern p {
+      font-size: 0.97rem;
+      line-height: 1.7;
+      color: #c4c4c4;
+      margin-bottom: 0.4rem;
+    }
+
+    .pattern-rule {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 0.35rem 0;
+      font-size: 0.93rem;
+      color: #aaa;
+      line-height: 1.6;
+    }
+
+    .pattern-rule .arrow-right {
+      color: #555;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .closer {
+      font-size: 0.97rem;
+      line-height: 1.7;
+      color: #bbb;
+      margin-bottom: 0.5rem;
+    }
+
+    .closer em {
+      font-style: italic;
+      color: #888;
+    }
+
+    .question {
+      font-style: italic;
+      font-size: 0.95rem;
+      color: #888;
+      margin-top: 1rem;
+      line-height: 1.65;
+    }
+
+    .tags {
+      border-top: 1px solid #222;
+      padding: 1rem 2.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #4a4a4a;
+    }
+
+    .tag:hover {
+      color: #777;
+      transition: color 0.2s;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="titlebar">
+      <div class="dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      <span class="titlebar-label">debugging-scenarios</span>
+    </div>
+
+    <div class="body">
+      <p class="opener">
+        Today I wanted to test myself.<br>
+        <em>Can I actually debug real problems without being told what to do?</em>
+      </p>
+
+      <div class="section-label">Three scenarios. Hints needed. Evidence followed.</div>
+
+      <div class="scenario">
+        <div class="scenario-title">SCENARIO 01 — SERVICE DOWN</div>
+        <p>Cron was stopped. No hint on what was wrong — just "it's broken, fix it."</p>
+        <div class="cmd-flow">
+          <span class="cmd">systemctl status cron</span>
+          <span class="arrow">→</span>
+          <span class="cmd">inactive (dead)</span>
+          <span class="arrow">→</span>
+          <span class="cmd">systemctl start cron</span>
+        </div>
+        <p>New PID. Back up. On-call engineers do this at 2am.</p>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-title">SCENARIO 02 — DISK AT 95%</div>
+        <p>500MB appeared from nowhere. Drilled from root down until I found it.</p>
+        <div class="cmd-flow">
+          <span class="cmd">du -h -d 1 /</span>
+          <span class="arrow">→</span>
+          <span class="cmd">/tmp = 501M</span>
+          <span class="arrow">→</span>
+          <span class="cmd">du -h -d 2 /tmp/*</span>
+          <span class="arrow">→</span>
+          <span class="cmd">bigfile</span>
+        </div>
+        <p>One <span class="cmd" style="font-size:10px;">rm</span> later. Disk back to 39%.</p>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-title">SCENARIO 03 — CONTAINER NOT RESPONDING</div>
+        <p><span class="cmd" style="font-size:10px;">curl localhost:8080</span> failed. Nothing obvious. Started investigating.</p>
+        <div class="cmd-flow">
+          <span class="cmd">ss -tulpn</span>
+          <span class="arrow">→</span>
+          <span class="cmd">nothing on 8080</span>
+        </div>
+        <p>Tried starting the container. Got: <span class="cmd" style="font-size:10px;">exec: --name: not found</span></p>
+        <p>Read the error. Flags were after the image name — Docker passed them to nginx instead. Fixed the order. Nginx responded.</p>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="pattern">
+        <p>The pattern across all three was the same:</p>
+        <div class="pattern-rule">
+          <span class="arrow-right">→</span>
+          <span>Start at the service, not the network</span>
+        </div>
+        <div class="pattern-rule">
+          <span class="arrow-right">→</span>
+          <span>Read the output, don't guess</span>
+        </div>
+        <div class="pattern-rule">
+          <span class="arrow-right">→</span>
+          <span>Logs tell you everything if you know where to look</span>
+        </div>
+      </div>
+
+      <p class="closer">
+        I needed hints to start. But once I had direction — I could follow the evidence myself.<br><br>
+        That's what DevOps interviews test. Not whether you know the answer. Whether you know where to look.
+      </p>
+
+      <p class="question">What's the first thing you check when something breaks?</p>
+    </div>
+
+    <div class="tags">
+      <span class="tag">#DevOps</span>
+      <span class="tag">#Linux</span>
+      <span class="tag">#Docker</span>
+      <span class="tag">#SRE</span>
+      <span class="tag">#100DaysOfDevOps</span>
+      <span class="tag">#LearningInPublic</span>
+    </div>
+  </div>
+</body>
+</html>
